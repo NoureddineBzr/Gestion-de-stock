@@ -1,12 +1,15 @@
 #include <stdio.h>
 
-void ajouter(int codes[], int quantities[], int *taille, int code, int quantity) {
+
+int taille = 0;
+int codes[100];
+int quantities[100];
+
+
+void ajouter(int code, int quantity) {
     int i;
 
-    
-    
-
-    for (i = 0; i < *taille; i++) {
+    for (i = 0; i < taille; i++) {
         if (codes[i] == code) {
             quantities[i] += quantity;
             printf("Quantite ajoutee au stock.\n");
@@ -14,21 +17,22 @@ void ajouter(int codes[], int quantities[], int *taille, int code, int quantity)
         }
     }
 
-    codes[*taille] = code;
-    quantities[*taille] = quantity;
-    (*taille)++;
+    codes[taille] = code;
+    quantities[taille] = quantity;
+    taille++;
 
     printf("Produit ajoute au stock.\n");
 }
 
-void supprimer(int codes[], int quantities[], int taille, int code, int quantity) {
+
+void supprimer(int code, int quantity) {
     int i;
 
     for (i = 0; i < taille; i++) {
         if (codes[i] == code) {
             if (quantities[i] >= quantity) {
                 quantities[i] -= quantity;
-                printf("Quantité retirée du stock.\n");
+                printf("Quantite retiree du stock.\n");
                 break;
             } else {
                 printf("Erreur : Quantite a retirer superieure a la quantite en stock.\n");
@@ -37,29 +41,27 @@ void supprimer(int codes[], int quantities[], int taille, int code, int quantity
         }
     }
 
-    printf("Erreur : Produit non trouvé dans le stock.\n");
+    printf("Erreur : Produit non trouvee dans le stock.\n");
 }
 
-void afficherStock(int codes[], int quantities[], int taille) {
-	int i;
-	if(taille ==0){
-		printf("Le stock est vide.\n");
-		return;
-			
-	}
+
+void afficherStock() {
+    int i;
+
+    if (taille == 0)  printf("Le stock est vide.\n");
+        
+   
     printf("Stock total :\n");
-    for ( i = 0; i < taille; i++) {
+    for (i = 0; i < taille; i++) {
         printf("Code de produit : %d et la quantitee de produit est : %d\n", codes[i], quantities[i]);
     }
 }
 
 int main() {
-    int taille = 0;
-    int codes[100];
-    int quantities[100];
+    
     int code, quantitee;
-
     int choix;
+
     do {
         printf("Menu :\n");
         printf("1: Ajouter un produit au stock.\n");
@@ -71,24 +73,22 @@ int main() {
         scanf("%d", &choix);
 
         switch (choix) {
-            case 1: {
+            case 1:
                 printf("Donner le code de produit : \n");
                 scanf("%d", &code);
                 printf("Donner la quantitee de produit : \n");
                 scanf("%d", &quantitee);
-                ajouter(codes, quantities, &taille, code, quantitee);
+                ajouter(code, quantitee);
                 break;
-            }
-            case 2: {
+            case 2:
                 printf("Donner le code de produit : \n");
                 scanf("%d", &code);
                 printf("Donner la quantitee a retirer : \n");
                 scanf("%d", &quantitee);
-                supprimer(codes, quantities, taille, code, quantitee);
+                supprimer(code, quantitee);
                 break;
-            }
             case 3:
-                afficherStock(codes, quantities, taille);
+                afficherStock();
                 break;
             case 4:
                 printf("Terminee\n");
